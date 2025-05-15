@@ -5,7 +5,7 @@ const schema = z.object({
   NODE_ENV: z.union([z.literal("development"), z.literal("production")]),
 
   DATABASE_URL: z.string(),
-  DATABASE_AUTH_TOKEN: z.string(),
+  // DATABASE_AUTH_TOKEN: z.string(),
 });
 
 export const env = schema.parse(process.env);

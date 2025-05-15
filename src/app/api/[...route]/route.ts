@@ -11,6 +11,8 @@ import {
   categorizeExpensesWithAI,
 } from "@/src/server/ai/invoices.ai";
 import { openaiClient } from "@/src/lib/openai-client";
+import { ExpensesService } from "@/src/server/services/expenses.service";
+import { ExpensesMapper } from "@/src/server/mappers/expenses.mapper";
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +29,15 @@ app.post("/hello", async (c) => {
 
   const rawResult = await analyzeInvoicePDF(destinationPath);
 
-  await categorizeExpensesWithAI(rawResult);
-
   await removeFileLocally(destinationPath);
+
+  const data = await categorizeExpensesWithAI(rawResult);
+
+  const expenseService = new ExpensesService();
+
+  const parsedData = ExpensesMapper.batchCategorizedToDomain(data);
+
+  await expenseService.batchCreate(parsedData);
 
   return c.json({
     message: "Hello from Hono!",

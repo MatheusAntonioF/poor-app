@@ -1,0 +1,1 @@
+ALTER TABLE `expenses` ADD `bankName` text NOT NULL;

@@ -17,9 +17,15 @@ importers:
       ai:
         specifier: ^4.3.15
         version: 4.3.15(react@18.2.0)(zod@3.24.4)
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       drizzle-orm:
         specifier: ^0.43.1
         version: 0.43.1(@libsql/client@0.15.6)(@opentelemetry/api@1.9.0)
+      drizzle-zod:
+        specifier: ^0.7.1
+        version: 0.7.1(drizzle-orm@0.43.1(@libsql/client@0.15.6)(@opentelemetry/api@1.9.0))(zod@3.24.4)
       hono:
         specifier: ^4.7.9
         version: 4.7.9
@@ -585,6 +591,10 @@ packages:
   diff-match-patch@1.0.5:
     resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
 
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+    engines: {node: '>=12'}
+
   drizzle-kit@0.31.1:
     resolution: {integrity: sha512-PUjYKWtzOzPtdtQlTHQG3qfv4Y0XT8+Eas6UbxCmxTj7qgMf+39dDujf1BP1I+qqZtw9uzwTh8jYtkMuCq+B0Q==}
     hasBin: true
@@ -677,6 +687,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.7.1:
+    resolution: {integrity: sha512-nZzALOdz44/AL2U005UlmMqaQ1qe5JfanvLujiTHiiT8+vZJTBFhj3pY4Vk+L6UWyKFfNmLhk602Hn4kCTynKQ==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
 
   esbuild-register@3.6.0:
     resolution: {integrity: sha512-H2/S7Pm8a9CL1uhp9OvjwrBh5Pvx0H8qVOxNu8Wed9Y7qv56MPtq+GGM8RJpq6glYJn9Wspr8uw7l55uyinNeg==}
@@ -1226,6 +1242,8 @@ snapshots:
 
   diff-match-patch@1.0.5: {}
 
+  dotenv@16.5.0: {}
+
   drizzle-kit@0.31.1:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
@@ -1239,6 +1257,11 @@ snapshots:
     optionalDependencies:
       '@libsql/client': 0.15.6
       '@opentelemetry/api': 1.9.0
+
+  drizzle-zod@0.7.1(drizzle-orm@0.43.1(@libsql/client@0.15.6)(@opentelemetry/api@1.9.0))(zod@3.24.4):
+    dependencies:
+      drizzle-orm: 0.43.1(@libsql/client@0.15.6)(@opentelemetry/api@1.9.0)
+      zod: 3.24.4
 
   esbuild-register@3.6.0(esbuild@0.25.4):
     dependencies:

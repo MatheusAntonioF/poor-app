@@ -6,6 +6,8 @@ import { openaiClient } from "@/src/lib/openai-client";
 import { env } from "@/src/config/env";
 
 export async function analyzeInvoicePDF(pdfPath: string) {
+  if (env.NODE_ENV === "development") return "";
+
   const invoice = readFileSync(pdfPath);
 
   const result = await generateText({
@@ -45,6 +47,11 @@ export async function analyzeInvoicePDF(pdfPath: string) {
   return result.text;
 }
 
+export interface CategorizedExpense {
+  invoiceDetails: { bankName: string; invoiceDate: string };
+  expenses: { name: string; value: number; date: string; category: string }[];
+}
+
 const mockCategorizedData = {
   invoiceDetails: { bankName: "Banco XP S.A.", invoiceDate: "23/01/2025" },
   expenses: [
@@ -75,7 +82,9 @@ const mockCategorizedData = {
   ],
 };
 
-export async function categorizeExpensesWithAI(data: string) {
+export async function categorizeExpensesWithAI(
+  data: string,
+): Promise<CategorizedExpense> {
   if (env.NODE_ENV === "development") return mockCategorizedData;
 
   const structuredResponse = await generateObject({
@@ -119,8 +128,5 @@ export async function categorizeExpensesWithAI(data: string) {
     `,
   });
 
-  return {
-    details: structuredResponse.object.invoiceDetails,
-    expenses: structuredResponse.object.expenses,
-  };
+  return structuredResponse.object;
 }

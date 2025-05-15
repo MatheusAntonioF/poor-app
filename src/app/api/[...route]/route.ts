@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 const app = new Hono().basePath("/api");
 
-app.post("/hello", async (c) => {
+app.post("/ai/invoices/upload", async (c) => {
   const body = await c.req.parseBody();
 
   const file = body["invoice"] as File;

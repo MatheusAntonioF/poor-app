@@ -1,5 +1,5 @@
 import { db } from '@/src/lib/drizzle';
-import { CreateExpense, expensesTable, type Expense } from '@/src/db/schema';
+import { expensesTable, type Expense } from '@/src/db/schema';
 import { ExpensesMapper } from '../mappers/expenses.mapper';
 
 export class ExpensesService {
@@ -9,16 +9,7 @@ export class ExpensesService {
         return ExpensesMapper.fromDbToDomain(expenses);
     }
 
-    async batchCreate(data: Expense[]) {
-        const toCreate: CreateExpense[] = data.map(expense => ({
-            id: expense.id,
-            bankName: expense.bankName,
-            name: expense.name,
-            value: expense.value,
-            date: expense.date,
-            category: expense.category,
-        }));
-
-        await db.insert(expensesTable).values(toCreate);
+    async batchCreate(toCreate: Expense[]) {
+        await db.insert(expensesTable).values(toCreate).returning();
     }
 }

@@ -1,18 +1,22 @@
+import { randomUUID } from 'node:crypto';
 import {
     convertAmountFromMiliunits,
+    convertAmountToMiliunits,
     parseAIExtractedDate,
 } from '@/src/utils/utils';
-import { CategorizedExpense } from '../ai/invoices.ai';
 import type { Expense } from '@/src/db/schema';
 
+import { CategorizedExpense } from '../ai/invoices.ai';
+
 export class ExpensesMapper {
-    static batchCategorizedToDomain(data: CategorizedExpense) {
+    static batchCategorizedToDomain(data: CategorizedExpense): Expense[] {
         return data.expenses.map(raw => {
             return {
+                id: randomUUID(),
                 bankName: data.invoiceDetails.bankName,
                 name: raw.name,
                 date: parseAIExtractedDate(raw.date),
-                value: convertAmountFromMiliunits(raw.value),
+                value: convertAmountToMiliunits(raw.value),
                 category: raw.category,
                 createdAt: new Date(),
                 updatedAt: new Date(),

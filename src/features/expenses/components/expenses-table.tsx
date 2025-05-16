@@ -16,6 +16,8 @@ import {
 } from '@heroui/react';
 import { formatCurrency, formatDate } from '@/src/utils/utils';
 import type { Expense } from '@/src/db/schema';
+import { CategoryBadge } from '../../categories/components/category-badge';
+import type { CategoryType } from '@/src/server/models/categories.model';
 
 interface ExpensesTableProps {
     getAllExpensesPromise: Promise<Expense[]>;
@@ -23,7 +25,6 @@ interface ExpensesTableProps {
 
 export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
     const expenses = use(getAllExpensesPromise);
-    console.log('🚀 ~ expenses:', expenses);
 
     return (
         <Table aria-label="Example static collection table">
@@ -44,7 +45,11 @@ export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{formatCurrency(item.value)}</TableCell>
                             <TableCell>{formatDate(item.date)}</TableCell>
-                            <TableCell>{item.category}</TableCell>
+                            <TableCell>
+                                <CategoryBadge
+                                    categoryType={item.category as CategoryType}
+                                />
+                            </TableCell>
                             <TableCell>{item.bankName}</TableCell>
                             <TableCell>
                                 <Popover placement="bottom" showArrow={true}>

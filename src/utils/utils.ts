@@ -16,9 +16,9 @@ export function parseAIExtractedDate(date: string) {
 
     const finalDate = new Date();
 
-    finalDate.setFullYear(Number(year));
     finalDate.setDate(Number(day));
     finalDate.setMonth(Number(year) - 1);
+    finalDate.setFullYear(Number(year));
 
     return finalDate;
 }

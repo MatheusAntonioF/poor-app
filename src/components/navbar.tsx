@@ -38,6 +38,7 @@ export function Navbar() {
                     'data-[active=true]:after:rounded-[2px]',
                     'data-[active=true]:after:bg-primary',
                 ],
+                wrapper: ['px-0'],
             }}
         >
             <NavbarBrand>
@@ -59,7 +60,7 @@ export function Navbar() {
             <NavbarContent justify="end">
                 <NavbarItem>
                     <Button as={Link} color="primary" href="#" variant="flat">
-                        Novo gasto
+                        Importar dados
                     </Button>
                 </NavbarItem>
             </NavbarContent>

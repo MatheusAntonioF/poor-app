@@ -11,7 +11,7 @@ export default function RootLayout({
         <html lang="en" className="dark">
             <body className="h-screen w-screen">
                 <Navbar />
-                <main className="container mx-auto mt-2">
+                <main className="container mx-auto mt-4">
                     <RootProviders>{children}</RootProviders>
                 </main>
             </body>

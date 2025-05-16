@@ -1,7 +1,7 @@
 'use client';
 
 import { use } from 'react';
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, SquarePen, Trash } from 'lucide-react';
 import {
     Table,
     TableHeader,
@@ -9,8 +9,11 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Button,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
 } from '@heroui/react';
-
 import { formatCurrency, formatDate } from '@/src/utils/utils';
 import type { Expense } from '@/src/db/schema';
 
@@ -20,6 +23,7 @@ interface ExpensesTableProps {
 
 export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
     const expenses = use(getAllExpensesPromise);
+    console.log('🚀 ~ expenses:', expenses);
 
     return (
         <Table aria-label="Example static collection table">
@@ -43,7 +47,31 @@ export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
                             <TableCell>{item.category}</TableCell>
                             <TableCell>{item.bankName}</TableCell>
                             <TableCell>
-                                <Ellipsis />
+                                <Popover placement="bottom" showArrow={true}>
+                                    <PopoverTrigger>
+                                        <Button isIconOnly size="sm">
+                                            <Ellipsis />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="p-0">
+                                        <div className="flex flex-col items-start justify-start gap-2 p-2">
+                                            <Button
+                                                className="w-full flex items-center justify-start gap-2"
+                                                variant="light"
+                                            >
+                                                <SquarePen size={14} />
+                                                Editar
+                                            </Button>
+                                            <Button
+                                                className="w-full flex items-center justify-start gap-2"
+                                                variant="light"
+                                            >
+                                                <Trash size={14} />
+                                                Remover
+                                            </Button>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
                             </TableCell>
                         </TableRow>
                     );

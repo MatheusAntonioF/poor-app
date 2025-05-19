@@ -18,6 +18,7 @@ import { formatCurrency, formatDate } from '@/src/utils/utils';
 import type { Expense } from '@/src/db/schema';
 import { CategoryBadge } from '../../categories/components/category-badge';
 import type { CategoryType } from '@/src/server/models/categories.model';
+import { SumExpenses } from './sum-expenses';
 
 interface ExpensesTableProps {
     getAllExpensesPromise: Promise<Expense[]>;
@@ -27,7 +28,10 @@ export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
     const expenses = use(getAllExpensesPromise);
 
     return (
-        <Table aria-label="Example static collection table">
+        <Table
+            aria-label="Example static collection table"
+            topContent={<SumExpenses expenses={expenses} />}
+        >
             <TableHeader>
                 <TableColumn>Nome</TableColumn>
                 <TableColumn>Valor</TableColumn>

@@ -35,9 +35,7 @@ app.post('/ai/invoices/upload', async c => {
 
     await expenseService.batchCreate(parsedData);
 
-    return c.json({
-        message: 'Hello from Hono!',
-    });
+    return c.json({});
 });
 
 async function saveFileLocally(file: File, destinationPath: string) {

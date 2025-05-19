@@ -4,8 +4,9 @@ import {
     NavbarContent,
     NavbarItem,
     Link,
-    Button,
 } from '@heroui/react';
+
+import { ImportPDFButton } from '../features/expenses/components/upload-pdf-button';
 
 export const AcmeLogo = () => {
     return (
@@ -24,6 +25,7 @@ export function Navbar() {
     return (
         <HeroNavbar
             classNames={{
+                wrapper: ['px-0', 'max-w-full'],
                 item: [
                     'flex',
                     'relative',
@@ -38,7 +40,6 @@ export function Navbar() {
                     'data-[active=true]:after:rounded-[2px]',
                     'data-[active=true]:after:bg-primary',
                 ],
-                wrapper: ['px-0'],
             }}
         >
             <NavbarBrand>
@@ -59,9 +60,7 @@ export function Navbar() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem>
-                    <Button as={Link} color="primary" href="#" variant="flat">
-                        Importar dados
-                    </Button>
+                    <ImportPDFButton />
                 </NavbarItem>
             </NavbarContent>
         </HeroNavbar>

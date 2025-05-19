@@ -1,12 +1,19 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { HeroUIProvider } from '@heroui/react';
+import { HeroUIProvider, ToastProvider } from '@heroui/react';
+import { UploadPdfModal } from '../features/expenses/components/upload-pdf-modal';
 
 interface RootProvidersProps {
     children: ReactNode;
 }
 
 export function RootProviders({ children }: RootProvidersProps) {
-    return <HeroUIProvider>{children}</HeroUIProvider>;
+    return (
+        <HeroUIProvider>
+            <ToastProvider />
+            {children}
+            <UploadPdfModal />
+        </HeroUIProvider>
+    );
 }

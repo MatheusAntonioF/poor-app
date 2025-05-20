@@ -1,24 +1,26 @@
-import { generateObject, generateText } from "ai";
-import { readFileSync } from "node:fs";
-import { z } from "zod";
+import { generateObject, generateText } from 'ai';
+import { readFileSync } from 'node:fs';
+import { z } from 'zod';
 
-import { openaiClient } from "@/src/lib/openai-client";
-import { env } from "@/src/config/env";
+import { openaiClient } from '@/src/lib/openai-client';
+import { env } from '@/src/config/env';
 
 export async function analyzeInvoicePDF(pdfPath: string) {
-  if (env.NODE_ENV === "development") return "";
+    if (env.NODE_ENV === 'test') return '';
 
-  const invoice = readFileSync(pdfPath);
+    console.log('Analyzing invoice...');
 
-  const result = await generateText({
-    model: openaiClient("gpt-4o-mini"),
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: `
+    const invoice = readFileSync(pdfPath);
+
+    const result = await generateText({
+        model: openaiClient('gpt-4o-mini'),
+        messages: [
+            {
+                role: 'user',
+                content: [
+                    {
+                        type: 'text',
+                        text: `
               Preciso que você analise o pdf de uma fatura de cartão de crédito
               e me retorne as seguintes informações que estão contidas nessa fatura
 
@@ -32,78 +34,80 @@ export async function analyzeInvoicePDF(pdfPath: string) {
               - data
               - valor
             `,
-          },
-          {
-            type: "file",
-            data: invoice,
-            mimeType: "application/pdf",
-            // filename: "invoice.pdf", // optional
-          },
+                    },
+                    {
+                        type: 'file',
+                        data: invoice,
+                        mimeType: 'application/pdf',
+                        // filename: "invoice.pdf", // optional
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  });
+    });
 
-  return result.text;
+    return result.text;
 }
 
 export interface CategorizedExpense {
-  invoiceDetails: { bankName: string; invoiceDate: string };
-  expenses: { name: string; value: number; date: string; category: string }[];
+    invoiceDetails: { bankName: string; invoiceDate: string };
+    expenses: { name: string; value: number; date: string; category: string }[];
 }
 
 const mockCategorizedData = {
-  invoiceDetails: { bankName: "Banco XP S.A.", invoiceDate: "23/01/2025" },
-  expenses: [
-    {
-      name: "EBN *SPOTIFY",
-      value: 27.9,
-      date: "29/12/2024",
-      category: "Outros",
-    },
-    {
-      name: "MERCADOLIVRE*TECHKING",
-      value: 81.88,
-      date: "01/01/2025",
-      category: "Outros",
-    },
-    {
-      name: "SABORES DA POLY",
-      value: 21,
-      date: "08/01/2025",
-      category: "Alimentação",
-    },
-    {
-      name: "SABORES DA POLY",
-      value: 15,
-      date: "09/01/2025",
-      category: "Alimentação",
-    },
-  ],
+    invoiceDetails: { bankName: 'Banco XP S.A.', invoiceDate: '23/01/2025' },
+    expenses: [
+        {
+            name: 'EBN *SPOTIFY',
+            value: 27.9,
+            date: '29/12/2024',
+            category: 'Outros',
+        },
+        {
+            name: 'MERCADOLIVRE*TECHKING',
+            value: 81.88,
+            date: '01/01/2025',
+            category: 'Outros',
+        },
+        {
+            name: 'SABORES DA POLY',
+            value: 21,
+            date: '08/01/2025',
+            category: 'Alimentação',
+        },
+        {
+            name: 'SABORES DA POLY',
+            value: 15,
+            date: '09/01/2025',
+            category: 'Alimentação',
+        },
+    ],
 };
 
 export async function categorizeExpensesWithAI(
-  data: string,
+    data: string
 ): Promise<CategorizedExpense> {
-  if (env.NODE_ENV === "development") return mockCategorizedData;
+    if (env.NODE_ENV === 'test') return mockCategorizedData;
 
-  const structuredResponse = await generateObject({
-    model: openaiClient("gpt-4o-mini"),
-    schema: z.object({
-      invoiceDetails: z.object({
-        bankName: z.string().describe("Nome do banco"),
-        invoiceDate: z.string().describe("Data da fatura"),
-      }),
-      expenses: z
-        .object({
-          name: z.string().describe("Nome do gasto"),
-          value: z.number().describe("valor que foi gasto"),
-          date: z.string().describe("data do gasto"),
-          category: z.string().describe("Categoria do gasto"),
-        })
-        .array(),
-    }),
-    prompt: `
+    console.log('Categorizing expenses...');
+
+    const structuredResponse = await generateObject({
+        model: openaiClient('gpt-4o-mini'),
+        schema: z.object({
+            invoiceDetails: z.object({
+                bankName: z.string().describe('Nome do banco'),
+                invoiceDate: z.string().describe('Data da fatura'),
+            }),
+            expenses: z
+                .object({
+                    name: z.string().describe('Nome do gasto'),
+                    value: z.number().describe('valor que foi gasto'),
+                    date: z.string().describe('data do gasto'),
+                    category: z.string().describe('Categoria do gasto'),
+                })
+                .array(),
+        }),
+        prompt: `
       Tenho aqui os detalhes de uma fatura de cartão de crédito contendo as seguintes informações:
       - nome do banco
       - data da fatura
@@ -126,7 +130,7 @@ export async function categorizeExpensesWithAI(
       Esses são todos os gastos que preciso que classifique:
       ${data}
     `,
-  });
+    });
 
-  return structuredResponse.object;
+    return structuredResponse.object;
 }

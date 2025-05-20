@@ -64,6 +64,7 @@ export function UploadPdfForm({}: UploadPdfFormProps) {
 
                     setIsPending(false);
 
+                    onClose();
                     resolve();
                 })
                 .catch(() => {

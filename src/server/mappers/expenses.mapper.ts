@@ -27,6 +27,7 @@ export class ExpensesMapper {
     static fromDbToDomain(data: Expense[]): Expense[] {
         return data.map((expense: Expense) => ({
             ...expense,
+            date: new Date(expense.date),
             value: convertAmountFromMiliunits(expense.value),
         }));
     }

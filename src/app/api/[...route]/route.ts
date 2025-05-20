@@ -9,6 +9,7 @@ import {
 } from '@/src/server/ai/invoices.ai';
 import { ExpensesService } from '@/src/server/services/expenses.service';
 import { ExpensesMapper } from '@/src/server/mappers/expenses.mapper';
+import { revalidateTag } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +35,8 @@ app.post('/ai/invoices/upload', async c => {
     const parsedData = ExpensesMapper.batchCategorizedToDomain(data);
 
     await expenseService.batchCreate(parsedData);
+
+    revalidateTag('expenses');
 
     return c.json({});
 });

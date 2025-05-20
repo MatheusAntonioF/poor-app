@@ -10,9 +10,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="dark">
-            <body className="h-screen w-screen container mx-auto ">
+            <body className="h-screen w-screen container mx-auto">
                 <Navbar />
-                <main className="mt-4">
+                <main className="mt-4 pb-4">
                     <RootProviders>{children}</RootProviders>
                 </main>
             </body>

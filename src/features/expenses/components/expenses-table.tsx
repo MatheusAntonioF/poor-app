@@ -42,13 +42,15 @@ export function ExpensesTable({ getAllExpensesPromise }: ExpensesTableProps) {
                     <span />
                 </TableColumn>
             </TableHeader>
-            <TableBody>
+            <TableBody emptyContent={'Sem gastos cadastrados'}>
                 {expenses.map(item => {
                     return (
                         <TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{formatCurrency(item.value)}</TableCell>
-                            <TableCell>{formatDate(item.date)}</TableCell>
+                            <TableCell>
+                                {formatDate(new Date(item.date))}
+                            </TableCell>
                             <TableCell>
                                 <CategoryBadge
                                     categoryType={item.category as CategoryType}

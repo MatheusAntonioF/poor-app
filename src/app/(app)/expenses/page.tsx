@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Button, Skeleton } from '@heroui/react';
 
-import { ExpensesTable } from '../features/expenses/components/expenses-table';
-import { getAllExpenses } from '../server/data-access/expenses';
+import { ExpensesTable } from '../../../features/expenses/components/expenses-table';
+import { getAllExpenses } from '../../../server/data-access/expenses';
 
 export const dynamic = 'force-dynamic';
 

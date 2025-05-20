@@ -10,7 +10,6 @@
 -   [ ] Create dashboard with some charts
 -   [ ] Create chart to see the most expensive items
 -   [ ] Create chart to check how much each category has
--   [ ] Create dashboard with some charts
 
 ## Improvements
 

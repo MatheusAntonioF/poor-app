@@ -47,13 +47,13 @@ export function Navbar() {
                 <p className="font-bold text-inherit">Pobre</p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem>
-                    <Link color="foreground" href="#">
+                <NavbarItem isActive>
+                    <Link color="primary" href="#">
                         Início
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive>
-                    <Link color="primary" href="#">
+                <NavbarItem>
+                    <Link color="foreground" href="#">
                         Gastos
                     </Link>
                 </NavbarItem>

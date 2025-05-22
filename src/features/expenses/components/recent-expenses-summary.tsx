@@ -16,16 +16,20 @@ import { formatCurrency, formatDate } from '@/src/utils/utils';
 import type { Expense } from '@/src/db/schema';
 import { CategoryBadge } from '../../categories/components/category-badge';
 import type { CategoryType } from '@/src/server/models/categories.model';
+import { use } from 'react';
 
 interface RecentExpensesProps {
-    expenses: Expense[];
+    getAllExpensesPromise: Promise<Expense[]>;
 }
 
-export function RecentExpenses({ expenses }: RecentExpensesProps) {
+export function RecentExpenses({ getAllExpensesPromise }: RecentExpensesProps) {
+    const expenses = use(getAllExpensesPromise);
+    console.log('🚀 ~ expenses:', expenses);
+
     return (
         <Card classNames={{ base: 'h-full' }}>
             <CardHeader>
-                <h4 className="font-bold text-large">Total gasto</h4>
+                <h4 className="font-bold text-large">Gastos mais recentes</h4>
             </CardHeader>
             <Divider />
             <CardBody>

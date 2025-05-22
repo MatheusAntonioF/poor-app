@@ -1,9 +1,12 @@
 import { unstable_cache } from 'next/cache';
-import { ExpensesService } from '../services/expenses.service';
+import {
+    ExpensesService,
+    type GetAllExpensesParams,
+} from '../services/expenses.service';
 
 export const getAllExpenses = unstable_cache(
-    async () => {
-        const expenses = await new ExpensesService().getAllExpenses();
+    async (data: GetAllExpensesParams = {}) => {
+        const expenses = await new ExpensesService().getAllExpenses(data);
 
         return expenses;
     },

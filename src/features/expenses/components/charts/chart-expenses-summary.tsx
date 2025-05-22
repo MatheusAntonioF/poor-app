@@ -1,8 +1,20 @@
 'use client';
 
-import { Bar, BarChart } from 'recharts';
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    LabelList,
+    XAxis,
+    YAxis,
+} from 'recharts';
 import { Card, CardHeader, CardBody } from '@heroui/card';
-import { ChartContainer, type ChartConfig } from '@/src/components/chart';
+import {
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+    type ChartConfig,
+} from '@/src/components/chart';
 import { Divider } from '@heroui/react';
 
 const chartData = [
@@ -17,37 +29,70 @@ const chartData = [
 const chartConfig = {
     desktop: {
         label: 'Desktop',
-        color: '#2563eb',
+        color: 'hsl(var(--chart-1))',
     },
     mobile: {
         label: 'Mobile',
-        color: '#60a5fa',
+        color: 'hsl(var(--chart-2))',
+    },
+    label: {
+        color: 'hsl(var(--background))',
     },
 } satisfies ChartConfig;
 
 export function ChartExpensesSummary() {
     return (
-        <Card>
+        <Card className="h-full">
             <CardHeader>
                 <h4 className="font-bold text-large">Resumo de gastos</h4>
             </CardHeader>
             <Divider />
-            <CardBody>
-                <ChartContainer
-                    config={chartConfig}
-                    className="min-h-[200px] w-full"
-                >
-                    <BarChart accessibilityLayer data={chartData}>
+            <CardBody className="h-[calc(100%-52px)]">
+                <ChartContainer config={chartConfig}>
+                    <BarChart
+                        accessibilityLayer
+                        data={chartData}
+                        layout="vertical"
+                        margin={{
+                            right: 16,
+                        }}
+                    >
+                        <CartesianGrid horizontal={false} />
+                        <YAxis
+                            dataKey="month"
+                            type="category"
+                            tickLine={false}
+                            tickMargin={5}
+                            axisLine={false}
+                            tickFormatter={value => value.slice(0, 3)}
+                            hide
+                        />
+                        <XAxis dataKey="desktop" type="number" hide />
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent indicator="line" />}
+                        />
                         <Bar
                             dataKey="desktop"
+                            layout="vertical"
                             fill="var(--color-desktop)"
                             radius={4}
-                        />
-                        <Bar
-                            dataKey="mobile"
-                            fill="var(--color-mobile)"
-                            radius={4}
-                        />
+                        >
+                            <LabelList
+                                dataKey="month"
+                                position="insideLeft"
+                                offset={8}
+                                className="fill-[--color-label]"
+                                fontSize={12}
+                            />
+                            <LabelList
+                                dataKey="desktop"
+                                position="right"
+                                offset={8}
+                                className="fill-foreground"
+                                fontSize={12}
+                            />
+                        </Bar>
                     </BarChart>
                 </ChartContainer>
             </CardBody>

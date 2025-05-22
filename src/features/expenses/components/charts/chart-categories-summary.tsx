@@ -52,7 +52,7 @@ export function ChartCategoriesSummary() {
                 <h4 className="font-bold text-large">Categorias</h4>
             </CardHeader>
             <Divider />
-            <CardBody className="flex-1 pb-0">
+            <CardBody>
                 <ChartContainer config={chartConfig}>
                     <PieChart>
                         <ChartTooltip
